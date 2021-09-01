@@ -51,5 +51,14 @@ jobs:
       - uses: actions/upload-artifact@v2.2.4
         with:
           name: Cordova Build Tests
-          path: ./testApp/platforms/electron/build/
+          path: |
+            ./testApp/platforms/electron/build/*.pacman
+            ./testApp/platforms/electron/build/*.gz
+            ./testApp/platforms/electron/build/*.rpm
+            ./testApp/platforms/electron/build/*.plist
+            ./testApp/platforms/electron/build/*.exe
+            ./testApp/platforms/electron/build/*.blockmap
+            ./testApp/platforms/electron/build/*.zip
+            ./testApp/platforms/electron/build/*.dmg
+            ./testApp/platforms/electron/build/*.pkg
           retention-days: 2
