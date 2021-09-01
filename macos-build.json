@@ -1,0 +1,38 @@
+{
+  "electron": {
+    "linux": {
+      "arch": [
+        "arm64",
+        "x64"
+      ],
+      "package": [
+        "deb",
+        "pacman",
+        "rpm",
+        "tar.gz"
+      ],
+      "category": "Education"
+    },
+    "mac": {
+      "arch": [
+        "arm64",
+        "x64"
+      ],
+      "package": [
+        "dmg",
+        "pkg",
+        "zip"
+      ]
+    },
+    "windows": {
+      "arch": [
+        "arm64",
+        "x64"
+      ],
+      "package": [
+        "nsis",
+        "zip"
+      ]
+    }
+  }
+}
