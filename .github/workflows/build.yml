@@ -1,0 +1,55 @@
+name: Build Test
+
+on:
+  workflow_dispatch:
+    inputs:
+      dispatchReason:
+        description: 'Reason for Manual Build Test'
+        required: true
+        default: 'Check current status'
+
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    env:
+      ELECTRON_CACHE: ~/.cache/electron
+      ELECTRON_BUILDER_CACHE: ~/.cache/electron-builder
+      CI: true
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        id: electron-cache
+        with:
+          path: |
+            ~/.cache/electron/*
+            ~/.cache/electron-builder/*
+          key: electron-${{ hashFiles('~/.cache/electron/*') }}-${{ hashFiles('~/.cache/electron-builder/*') }}
+
+      - name: Run install Cordova
+        run: npm i -g cordova
+
+      - name: Run create Cordova project
+        run: cordova create testApp com.havesource.testApp
+
+      - name: Run add Electron platform
+        working-directory: ./testApp
+        run: cordova platform add electron@nightly
+        
+      - name: Run add build configs
+        working-directory: ./testApp
+        run: cp ../macos-build.json ./build.json
+        
+      - name: Run build test
+        working-directory: ./testApp
+        run: cordova build electron
+        
+      - uses: actions/upload-artifact@v2.2.4
+        with:
+          name: Cordova Build Tests
+          path: ./testApp/platforms/electron/build/**cordovaTest**
+          retention-days: 2
